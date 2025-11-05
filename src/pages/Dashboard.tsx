@@ -4,6 +4,21 @@ import { BarChart3, Users, CheckCircle, Clock, XCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import {
   Table,
   TableBody,
   TableCell,
@@ -40,6 +55,32 @@ const Dashboard = () => {
       day: "numeric",
     });
   };
+
+  // Chart data
+  const statusChartData = [
+    { name: "Approved", value: stats.approved, color: "hsl(var(--chart-2))" },
+    { name: "Pending", value: stats.pending, color: "hsl(var(--muted-foreground))" },
+    { name: "Under Review", value: stats.underReview, color: "hsl(var(--chart-3))" },
+    { name: "Rejected", value: stats.rejected, color: "hsl(var(--destructive))" },
+  ];
+
+  const monthlyData = [
+    { month: "Jan", submissions: 12, approved: 10 },
+    { month: "Feb", submissions: 15, approved: 13 },
+    { month: "Mar", submissions: 18, approved: 15 },
+    { month: "Apr", submissions: 20, approved: 17 },
+    { month: "May", submissions: 25, approved: 22 },
+    { month: "Jun", submissions: 22, approved: 19 },
+  ];
+
+  const trendData = [
+    { month: "Jan", completionRate: 83 },
+    { month: "Feb", completionRate: 87 },
+    { month: "Mar", completionRate: 83 },
+    { month: "Apr", completionRate: 85 },
+    { month: "May", completionRate: 88 },
+    { month: "Jun", completionRate: 86 },
+  ];
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
@@ -119,6 +160,131 @@ const Dashboard = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Status Distribution Pie Chart */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Status Distribution</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={statusChartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) =>
+                      `${name}: ${(percent * 100).toFixed(0)}%`
+                    }
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {statusChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Monthly Submissions Bar Chart */}
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle>Monthly KYC Submissions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart data={monthlyData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis
+                    dataKey="month"
+                    stroke="hsl(var(--muted-foreground))"
+                  />
+                  <YAxis stroke="hsl(var(--muted-foreground))" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "hsl(var(--card))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: "8px",
+                    }}
+                  />
+                  <Legend />
+                  <Bar
+                    dataKey="submissions"
+                    fill="hsl(var(--chart-1))"
+                    name="Total Submissions"
+                    radius={[8, 8, 0, 0]}
+                  />
+                  <Bar
+                    dataKey="approved"
+                    fill="hsl(var(--chart-2))"
+                    name="Approved"
+                    radius={[8, 8, 0, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Completion Rate Trend */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Approval Rate Trend</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={250}>
+              <AreaChart data={trendData}>
+                <defs>
+                  <linearGradient id="colorRate" x1="0" y1="0" x2="0" y2="1">
+                    <stop
+                      offset="5%"
+                      stopColor="hsl(var(--chart-2))"
+                      stopOpacity={0.3}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="hsl(var(--chart-2))"
+                      stopOpacity={0}
+                    />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis
+                  dataKey="month"
+                  stroke="hsl(var(--muted-foreground))"
+                />
+                <YAxis
+                  stroke="hsl(var(--muted-foreground))"
+                  domain={[0, 100]}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                  }}
+                  formatter={(value) => `${value}%`}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="completionRate"
+                  stroke="hsl(var(--chart-2))"
+                  fillOpacity={1}
+                  fill="url(#colorRate)"
+                  strokeWidth={2}
+                  name="Approval Rate"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
 
         {/* KYC Table */}
         <Card>
