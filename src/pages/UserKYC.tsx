@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Camera, Shield } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Navbar } from "@/components/Navbar";
 import { StepIndicator } from "@/components/StepIndicator";
 import { FileUpload } from "@/components/FileUpload";
 import {
@@ -85,19 +87,23 @@ const UserKYC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">KYC Verification</h1>
-          <p className="text-muted-foreground">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      <Navbar />
+      <div className="max-w-4xl mx-auto p-4 md:p-8">
+        <div className="mb-8 text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary to-accent mb-4">
+            <Shield className="w-8 h-8 text-primary-foreground" />
+          </div>
+          <h1 className="text-4xl font-bold mb-2">KYC Verification</h1>
+          <p className="text-muted-foreground text-lg">
             Complete your verification in 5 simple steps
           </p>
         </div>
 
         <StepIndicator steps={steps} currentStep={currentStep} />
 
-        <Card className="mt-8">
-          <CardContent className="p-6">
+        <Card className="mt-8 shadow-2xl border-primary/10">
+          <CardContent className="p-6 md:p-8">
             {/* Step 1: Basic Info */}
             {currentStep === 1 && (
               <div className="space-y-6">
@@ -484,70 +490,127 @@ const UserKYC = () => {
             {/* Step 4: Liveness */}
             {currentStep === 4 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-semibold">Liveness Check</h2>
-                <p className="text-muted-foreground">
-                  Take a selfie to verify your identity. Make sure your face is
-                  clearly visible.
-                </p>
-                <FileUpload
-                  label="Capture Selfie"
-                  capture={true}
-                  value={formData.livenessPhoto}
-                  onChange={(file) =>
-                    setFormData({ ...formData, livenessPhoto: file })
-                  }
-                />
+                <div className="text-center mb-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary to-accent mb-4">
+                    <Camera className="w-8 h-8 text-primary-foreground" />
+                  </div>
+                  <h2 className="text-2xl font-semibold mb-2">Liveness Check</h2>
+                  <p className="text-muted-foreground">
+                    Take a selfie to verify your identity. Make sure your face is clearly visible.
+                  </p>
+                </div>
+                <div className="max-w-md mx-auto">
+                  <FileUpload
+                    label="Capture Selfie"
+                    capture={true}
+                    value={formData.livenessPhoto}
+                    onChange={(file) =>
+                      setFormData({ ...formData, livenessPhoto: file })
+                    }
+                  />
+                </div>
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 space-y-2">
+                  <p className="text-sm font-medium">Tips for a perfect selfie:</p>
+                  <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                    <li>Ensure good lighting</li>
+                    <li>Face the camera directly</li>
+                    <li>Remove glasses if possible</li>
+                    <li>Neutral expression works best</li>
+                  </ul>
+                </div>
               </div>
             )}
 
             {/* Step 5: Review */}
             {currentStep === 5 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-semibold">Review Your Information</h2>
+                <div className="text-center mb-6">
+                  <h2 className="text-2xl font-semibold mb-2">Review Your Information</h2>
+                  <p className="text-muted-foreground">
+                    Please review all the information before submitting
+                  </p>
+                </div>
                 
                 <div className="space-y-4">
-                  <div className="p-4 bg-muted rounded-lg">
-                    <h3 className="font-semibold mb-2">Personal Information</h3>
-                    <p className="text-sm">
-                      {formData.userInfo.firstName} {formData.userInfo.lastName}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {formData.userInfo.email}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {formData.userInfo.phone}
-                    </p>
+                  <div className="p-5 bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 rounded-lg">
+                    <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                        <span className="text-sm font-bold text-primary">1</span>
+                      </div>
+                      Personal Information
+                    </h3>
+                    <div className="space-y-2 ml-10">
+                      <p className="text-sm">
+                        <span className="font-medium">Name:</span> {formData.userInfo.firstName} {formData.userInfo.lastName}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        <span className="font-medium text-foreground">Email:</span> {formData.userInfo.email}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        <span className="font-medium text-foreground">Phone:</span> {formData.userInfo.phone}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        <span className="font-medium text-foreground">DOB:</span> {formData.userInfo.dateOfBirth}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="p-4 bg-muted rounded-lg">
-                    <h3 className="font-semibold mb-2">Permanent Address</h3>
-                    <p className="text-sm">{formData.permanentAddress.street}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {formData.permanentAddress.city},{" "}
-                      {formData.permanentAddress.state}{" "}
-                      {formData.permanentAddress.zipCode}
-                    </p>
+                  <div className="p-5 bg-gradient-to-br from-success/5 to-success/10 border border-success/20 rounded-lg">
+                    <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center">
+                        <span className="text-sm font-bold text-success">2</span>
+                      </div>
+                      Permanent Address
+                    </h3>
+                    <div className="space-y-1 ml-10">
+                      <p className="text-sm">{formData.permanentAddress.street}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {formData.permanentAddress.city}, {formData.permanentAddress.state} {formData.permanentAddress.zipCode}
+                      </p>
+                      <p className="text-sm text-muted-foreground">{formData.permanentAddress.country}</p>
+                    </div>
                   </div>
 
-                  <div className="p-4 bg-muted rounded-lg">
-                    <h3 className="font-semibold mb-2">Corporate Address</h3>
-                    <p className="text-sm">{formData.corporateAddress.street}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {formData.corporateAddress.city},{" "}
-                      {formData.corporateAddress.state}{" "}
-                      {formData.corporateAddress.zipCode}
-                    </p>
+                  <div className="p-5 bg-gradient-to-br from-accent/5 to-accent/10 border border-accent/20 rounded-lg">
+                    <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                        <span className="text-sm font-bold text-accent">3</span>
+                      </div>
+                      Corporate Address
+                    </h3>
+                    <div className="space-y-1 ml-10">
+                      <p className="text-sm">{formData.corporateAddress.street}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {formData.corporateAddress.city}, {formData.corporateAddress.state} {formData.corporateAddress.zipCode}
+                      </p>
+                      <p className="text-sm text-muted-foreground">{formData.corporateAddress.country}</p>
+                    </div>
                   </div>
 
-                  <div className="p-4 bg-muted rounded-lg">
-                    <h3 className="font-semibold mb-2">Documents</h3>
-                    <p className="text-sm">
-                      Permanent Address: {formData.permanentDocType.type}
-                    </p>
-                    <p className="text-sm">
-                      Corporate Address: {formData.corporateDocType.type}
-                    </p>
+                  <div className="p-5 bg-gradient-to-br from-warning/5 to-warning/10 border border-warning/20 rounded-lg">
+                    <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-warning/20 flex items-center justify-center">
+                        <span className="text-sm font-bold text-warning">4</span>
+                      </div>
+                      Documents
+                    </h3>
+                    <div className="space-y-2 ml-10">
+                      <p className="text-sm">
+                        <span className="font-medium">Permanent Address Proof:</span>{" "}
+                        <span className="capitalize">{formData.permanentDocType.type.replace("_", " ")}</span>
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-medium">Corporate Address Proof:</span>{" "}
+                        <span className="capitalize">{formData.corporateDocType.type.replace("_", " ")}</span>
+                      </p>
+                    </div>
                   </div>
+                </div>
+
+                <div className="bg-muted/50 border border-muted rounded-lg p-4 text-center">
+                  <p className="text-sm text-muted-foreground">
+                    By submitting this form, you confirm that all information provided is accurate and complete.
+                  </p>
                 </div>
               </div>
             )}
@@ -558,14 +621,15 @@ const UserKYC = () => {
                 variant="outline"
                 onClick={handlePrevious}
                 disabled={currentStep === 1}
+                size="lg"
               >
                 Previous
               </Button>
               {currentStep < 5 ? (
-                <Button onClick={handleNext}>Next</Button>
+                <Button onClick={handleNext} size="lg">Next</Button>
               ) : (
-                <Button onClick={() => setShowConfirmDialog(true)}>
-                  Submit
+                <Button onClick={() => setShowConfirmDialog(true)} size="lg" className="min-w-32">
+                  Submit Application
                 </Button>
               )}
             </div>
