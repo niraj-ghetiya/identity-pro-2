@@ -10,7 +10,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <Navbar />
-      <div className="container mx-auto px-4 py-16">
+      <div className="w-full px-4 py-16">
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-6">
             <Shield className="w-10 h-10 text-primary" />

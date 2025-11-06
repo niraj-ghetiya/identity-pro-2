@@ -41,7 +41,7 @@ const AdminLogin = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <Navbar />
-      <div className="container mx-auto px-4 py-16 flex items-center justify-center min-h-[calc(100vh-4rem)]">
+      <div className="w-full px-4 py-16 flex items-center justify-center min-h-[calc(100vh-4rem)]">
         <Card className="w-full max-w-md shadow-2xl border-primary/10">
           <CardHeader className="space-y-4 text-center">
             <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">

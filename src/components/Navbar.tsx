@@ -15,8 +15,8 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+    <nav className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50 w-full">
+      <div className="px-4 h-16 flex items-center justify-between w-full">
         <div className="flex items-center gap-8">
           <button 
             onClick={() => navigate("/")} 

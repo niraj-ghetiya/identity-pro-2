@@ -89,7 +89,7 @@ const UserKYC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <Navbar />
-      <div className="max-w-4xl mx-auto p-4 md:p-8">
+      <div className="w-full p-4 md:p-8">
         <div className="mb-8 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary to-accent mb-4">
             <Shield className="w-8 h-8 text-primary-foreground" />
